@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lofi.shotoo.tech/sitemap.xml
