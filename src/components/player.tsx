@@ -15,11 +15,26 @@ function MainPlayer() {
     setPlaybackMetrics,
   } = usePlayer()
   const playerRef = useRef<HTMLVideoElement | null>(null)
+  const hasStartedPlaybackRef = useRef(false)
 
   useEffect(() => {
     if (!playerRef.current) return
     playerRef.current.currentTime = seekToSeconds
   }, [seekRequestVersion, seekToSeconds])
+
+  useEffect(() => {
+    hasStartedPlaybackRef.current = false
+
+    if (!currentUrl || !isPlaying) return
+
+    const autoplayGuardTimeout = window.setTimeout(() => {
+      if (!hasStartedPlaybackRef.current) {
+        setPlaying(false)
+      }
+    }, 1200)
+
+    return () => window.clearTimeout(autoplayGuardTimeout)
+  }, [currentUrl, isPlaying, setPlaying])
 
   return (
     <div className="w-full hidden">
@@ -33,8 +48,14 @@ function MainPlayer() {
           muted={muted}
           width="100%"
           height="100%"
-          onPause={() => setPlaying(false)}
-          onPlay={() => setPlaying(true)}
+          onPause={() => {
+            hasStartedPlaybackRef.current = false
+            setPlaying(false)
+          }}
+          onPlaying={() => {
+            hasStartedPlaybackRef.current = true
+            setPlaying(true)
+          }}
           onEnded={playNext}
           onError={playNext}
           onDurationChange={(event) => {
