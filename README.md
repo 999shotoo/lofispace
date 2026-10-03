@@ -9,9 +9,8 @@ lofiSpace is a modern lofi streaming web app with an immersive console-style lis
 
 ## Preview
 
-![lofiSpace OG Preview](public/og-image.webp)
+![lofiSpace OG Preview](public/showcase.jpg)
 
-![Home Background](src/assets/jazz_mix.webp)
 
 ## Highlights
 
